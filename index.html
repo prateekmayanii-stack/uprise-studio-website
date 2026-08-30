@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uprise Studio — Social Media Marketing for Offline Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101B33;
+    --blue:#3D7DFF;
+    --blue-deep:#1A3FAE;
+    --blue-light:#BFE6FA;
+    --bg:#FFFFFF;
+    --bg-soft:#FAFBFD;
+    --border:#E6ECF5;
+    --text-soft:#4A5670;
+    --radius:16px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--navy);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand-word{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    line-height:1.15;
+  }
+  a{text-decoration:none; color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg,var(--blue) 0%, var(--blue-deep) 100%);
+    color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:600;
+    font-size:16px; padding:14px 28px; border-radius:100px;
+    border:none; cursor:pointer;
+    box-shadow:0 8px 24px rgba(61,125,255,0.35);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(61,125,255,0.45); }
+  .btn.ghost{
+    background:rgba(255,255,255,0.08);
+    border:1.5px solid rgba(255,255,255,0.6);
+    box-shadow:none;
+  }
+  .eyebrow{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--blue);
+    display:inline-block; margin-bottom:14px;
+  }
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; backdrop-filter:blur(12px);
+    background:rgba(16,27,51,0.35);
+    transition:background .3s ease, padding .3s ease;
+  }
+  nav.scrolled{ background:rgba(16,27,51,0.85); padding:10px 24px; }
+  .nav-logo{ display:flex; align-items:center; gap:10px; }
+  .nav-logo img{ height:36px; width:auto; }
+  .nav-logo span{ color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; }
+  .nav-links{ display:flex; align-items:center; gap:32px; }
+  .nav-links a.link{ color:#fff; font-weight:500; font-size:15px; opacity:0.85; }
+  .nav-links a.link:hover{ opacity:1; }
+  .nav-cta{ padding:11px 22px; font-size:14px; }
+  @media (max-width:760px){
+    .nav-links .link{ display:none; }
+  }
+
+  /* HERO */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:center;
+    overflow:hidden; background:var(--navy);
+  }
+  .hero video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    z-index:0;
+  }
+  .hero .scrim{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(16,27,51,0.35) 0%, rgba(16,27,51,0.55) 55%, rgba(16,27,51,0.92) 100%);
+  }
+  .hero-content{
+    position:relative; z-index:2; width:100%;
+    padding:140px 24px 100px;
+    text-align:center;
+  }
+  .hero-content .inner{ max-width:840px; margin:0 auto; }
+  .hero h1{
+    color:#fff; font-size:clamp(32px, 5.2vw, 58px);
+    margin-bottom:22px;
+    text-shadow:0 4px 30px rgba(0,0,0,0.35);
+  }
+  .hero p.sub{
+    color:rgba(255,255,255,0.88); font-size:clamp(16px, 2vw, 19px);
+    max-width:640px; margin:0 auto 32px; font-weight:400;
+  }
+  .hero .cta-row{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    z-index:2; color:rgba(255,255,255,0.6); font-size:12px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    letter-spacing:0.12em; text-transform:uppercase;
+  }
+  .scroll-cue .dot{
+    width:1px; height:28px; background:rgba(255,255,255,0.4);
+    animation:scrolldown 1.8s ease-in-out infinite;
+  }
+  @keyframes scrolldown{ 0%{opacity:0; transform:translateY(0);} 50%{opacity:1;} 100%{opacity:0; transform:translateY(14px);} }
+
+  /* REVEAL ANIMATION */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* SECTION SHELL */
+  section{ padding:100px 0; position:relative; }
+  .section-head{ text-align:center; max-width:680px; margin:0 auto 56px; }
+  .section-head h2{ font-size:clamp(26px,4vw,40px); color:var(--navy); }
+  .section-head p{ color:var(--text-soft); font-size:17px; margin-top:14px; }
+
+  /* SERVICES */
+  #services{ background:var(--bg-soft); }
+  .services-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
+  }
+  @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .services-grid{ grid-template-columns:1fr; } }
+  .service-card{
+    background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+    padding:32px 28px; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .service-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(16,27,51,0.08);
+    border-color:transparent;
+  }
+  .service-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:10px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-deep));
+    color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    margin-bottom:18px;
+  }
+  .service-card h3{ font-size:19px; margin-bottom:10px; }
+  .service-card p{ color:var(--text-soft); font-size:15px; }
+
+  /* RESULTS */
+  #results{ background:var(--navy); color:#fff; }
+  #results .section-head p{ color:rgba(255,255,255,0.65); }
+  #results .section-head h2{ color:#fff; }
+  .badge-row{
+    display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-bottom:64px;
+  }
+  .badge{
+    padding:10px 22px; border-radius:100px; border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.06); font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:14px; color:#fff;
+  }
+  .proof-block{ margin-bottom:56px; }
+  .proof-block:last-child{ margin-bottom:0; }
+  .proof-block h3{ color:#fff; font-size:22px; margin-bottom:20px; text-align:center; }
+  .placeholder-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;
+  }
+  @media (max-width:900px){ .placeholder-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .placeholder-grid{ grid-template-columns:1fr; } }
+  .placeholder-card{
+    aspect-ratio:9/14; border-radius:14px;
+    border:1.5px dashed rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.03);
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,0.4); font-size:13px; text-align:center; padding:16px;
+  }
+  .placeholder-card.wide{ aspect-ratio:16/10; }
+
+  /* FOUNDERS */
+  #founders{ background:var(--bg); }
+  .founders-intro{ max-width:760px; margin:0 auto 60px; text-align:center; color:var(--text-soft); font-size:17px; }
+  .founders-grid{ display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  @media (max-width:820px){ .founders-grid{ grid-template-columns:1fr; } }
+  .founder-card{
+    background:var(--bg-soft); border:1px solid var(--border); border-radius:20px;
+    padding:36px;
+  }
+  .founder-card .name{ font-size:22px; margin-bottom:4px; }
+  .founder-card .title{ color:var(--blue); font-weight:600; font-size:14px; margin-bottom:22px; }
+  .founder-card ul{ list-style:none; margin-bottom:22px; }
+  .founder-card ul li{
+    position:relative; padding-left:22px; margin-bottom:10px; font-size:14.5px; color:var(--navy);
+  }
+  .founder-card ul li::before{
+    content:''; position:absolute; left:0; top:8px; width:7px; height:7px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue-deep));
+  }
+  .founder-card p.bio{ color:var(--text-soft); font-size:15px; }
+
+  /* CLOSING CTA */
+  #closing{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--blue-deep) 100%);
+    color:#fff; text-align:center;
+  }
+  #closing h2{ color:#fff; font-size:clamp(28px,4.5vw,44px); margin-bottom:18px; }
+  #closing p{ color:rgba(255,255,255,0.85); max-width:560px; margin:0 auto 34px; font-size:17px; }
+
+  /* FOOTER */
+  footer{ background:var(--navy); color:rgba(255,255,255,0.6); padding:40px 0; font-size:14px; }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-logo{ display:flex; align-items:center; gap:10px; }
+  .footer-logo img{ height:28px; }
+  .footer-logo span{ color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; }
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="#top" class="nav-logo">
+    <img src="logo.png" alt="Uprise Studio logo">
+  </a>
+  <div class="nav-links">
+    <a class="link" href="#services">Services</a>
+    <a class="link" href="#results">Results</a>
+    <a class="link" href="#founders">Team</a>
+    <a class="btn nav-cta" href="#closing">Chat With Us</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <video autoplay muted loop playsinline poster="hero-poster.png">
+    <source src="hero-video.mp4" type="video/mp4">
+  </video>
+  <div class="scrim"></div>
+  <div class="hero-content">
+    <div class="inner reveal in">
+      <h1>If Your Business Is Good News, We're the Aunties Who Spread It on Social Media Until the Whole City Knows About It by Evening</h1>
+      <p class="sub">Uprise Studio runs on a "Genz Content Framework" designed to go viral, and we use it to grow your business by 100% — building your brand, turning your shop into the most viral shop in the city, bringing in customers, and growing your sales. And this is possible in the next 3 months!</p>
+      <div class="cta-row">
+        <a href="#closing" class="btn">Chat With Us</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="dot"></span></div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2>What We Actually Do For You</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <h3>Social Media Marketing</h3>
+        <p>We handle your business account end-to-end — Instagram, Facebook, Twitter, LinkedIn, wherever your customers are. Our biggest promise: zero involvement needed from you. You're already busy running an offline business that works — you just need a team that can automate your online presence, and that's exactly what we do.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <h3>Website Designing</h3>
+        <p>Once someone finds you on Instagram, the next thing they do is look for your website. So we build one — not a tired, old-school WordPress template. We design modern, 3D animated websites built for 2026, made to actually attract your customers, not just exist.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <h3>Google Reviews & Visibility</h3>
+        <p>Before anyone walks into your shop, they search for you on Google. If you're not there, we get you there — and we clean up and build your reviews so people trust you before they've even met you.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <h3>Automation</h3>
+        <p>We turn the leads coming from your social media into actual customers, with a system built for it — so you're not stuck chasing likes and comments, you're extracting real business from them.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <h3>Performance Marketing</h3>
+        <p>If you want to bring your business online and build a real funnel, we run Meta ads for you — the whole thing, A to Z. Landing pages, ad creatives, automation, moving leads into your CRM, and converting them from there.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <h3>Business Consulting</h3>
+        <p>You're the expert on your offline business — you've been running it for years. But converting online attention into paying customers is a different skill, and most agencies just hand you the views and walk away. We don't. We help you actually convert what we bring in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Proof</span>
+      <h2>Have a Look at These Amazing Results</h2>
+      <p>Real businesses we're currently working with across Chhattisgarh and Odisha.</p>
+    </div>
+    <div class="badge-row reveal">
+      <span class="badge">Neelam</span>
+      <span class="badge">Eco</span>
+      <span class="badge">Pavan</span>
+      <span class="badge">SS</span>
+    </div>
+
+    <div class="proof-block reveal">
+      <h3>Case Studies We've Created</h3>
+      <div class="placeholder-grid">
+        <div class="placeholder-card wide">Case study — add screenshot/write-up</div>
+        <div class="placeholder-card wide">Case study — add screenshot/write-up</div>
+        <div class="placeholder-card wide">Case study — add screenshot/write-up</div>
+        <div class="placeholder-card wide">Case study — add screenshot/write-up</div>
+      </div>
+    </div>
+
+    <div class="proof-block reveal">
+      <h3>Some Videos That We Have Created</h3>
+      <div class="placeholder-grid">
+        <div class="placeholder-card">Reel / video embed</div>
+        <div class="placeholder-card">Reel / video embed</div>
+        <div class="placeholder-card">Reel / video embed</div>
+        <div class="placeholder-card">Reel / video embed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="founders">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Team</span>
+      <h2>Who's Actually Running This</h2>
+    </div>
+    <p class="founders-intro reveal">Unnati Nainani &amp; Prateek Mayani were both working professionals for years before Uprise Studio, and both went deep into the fundamentals of how a business actually grows online — through performance marketing and social media — before ever bringing that to offline businesses.</p>
+    <div class="founders-grid">
+      <div class="founder-card reveal">
+        <div class="name">Unnati Nainani</div>
+        <div class="title">Founder, Operations, Strategy &amp; Client Growth</div>
+        <ul>
+          <li>5+ years in digital presence, with a deep understanding of social media marketing fundamentals</li>
+          <li>Managed 10+ different businesses across social platforms</li>
+          <li>10M+ views generated in under 3 months</li>
+          <li>50K+ follower growth across clients</li>
+          <li>Personally shot and delivered 50+ influencer-style videos</li>
+        </ul>
+        <p class="bio">Unnati has spent 5+ years building a real understanding of how social media marketing actually works — not just posting content, but the fundamentals behind what makes it perform. She's managed 10+ different businesses across social platforms, generated 10M+ views in under 3 months, and grown followings by 50K+ across clients. She's also personally shot and delivered 50+ influencer-style videos herself, so this isn't strategy from behind a desk — she's done the work. At Uprise Studio, she owns operations, strategy, and client growth.</p>
+      </div>
+      <div class="founder-card reveal">
+        <div class="name">Prateek Mayani</div>
+        <div class="title">Co-Founder, Production &amp; Client Relations</div>
+        <ul>
+          <li>7+ years in digital marketing, across both performance marketing and organic content</li>
+          <li>₹1.2 Cr+ ad spend managed, ₹3 Cr+ revenue generated for clients</li>
+          <li>Personally shot and delivered 50+ videos for different clients</li>
+          <li>Leads production, team management, finances, and client communication</li>
+        </ul>
+        <p class="bio">Prateek brings 7+ years in digital marketing across both performance marketing and organic content — from running ₹1.2 Cr+ in ad spend that generated ₹3 Cr+ in client revenue, to personally shooting and delivering 50+ videos for different clients himself. At Uprise Studio, he leads production, manages the team, and handles finances and client communication.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="closing">
+  <div class="wrap reveal">
+    <h2>Ready to Become Your City's Most Viral Business?</h2>
+    <p>We're onboarding a limited number of businesses right now. Message us, tell us about your business, and let's see if we're a fit.</p>
+    <a href="#" class="btn">Chat With Us</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-logo">
+      <img src="logo.png" alt="Uprise Studio">
+      <span>Uprise Studio</span>
+    </div>
+    <div>Raipur, Chhattisgarh · © 2026 Uprise Studio. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Nav background on scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
