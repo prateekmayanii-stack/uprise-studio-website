@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -39,11 +39,11 @@
         </div>
       </a>
 
-      <nav>
+      <nav aria-label="Desktop Navigation">
         <ul class="nav-links">
-          <li><a href="#vault" class="nav-link active" id="navLinkVault">Video Vault (50+)</a></li>
+          <li><a href="#vault" class="nav-link active" id="navLinkVault">Video Vault <span class="nav-count-badge">50+</span></a></li>
           <li><a href="#niches" class="nav-link" id="navLinkNiches">Retail Niches</a></li>
-          <li><a href="#simulator" class="nav-link" id="navLinkSimulator">Footfall Calculator</a></li>
+          <li><a href="#simulator" class="nav-link" id="navLinkSimulator">Calculator</a></li>
           <li><a href="#blueprint" class="nav-link" id="navLinkBlueprint">How It Works</a></li>
           <li><a href="#founders" class="nav-link" id="navLinkFounders">About Us</a></li>
           <li><a href="#faqs" class="nav-link" id="navLinkFaqs">FAQs</a></li>
@@ -53,18 +53,49 @@
       <div class="nav-right-actions">
         <div class="live-shoot-status" title="Current Shoot Calendar Status">
           <span class="live-dot"></span>
-          <span>Shoots Open: Chhattisgarh &amp; MP</span>
+          <span>Shoots Open: CG &amp; MP</span>
         </div>
         <a href="https://wa.me/919109990888?text=Namaste%20Prateek%20%26%20Unnati!%20I%20have%20an%20offline%20shop%20and%20want%20viral%20reels%20for%20my%20store." 
            class="btn btn-whatsapp" 
            id="navWhatsAppBtn" 
            target="_blank" 
            rel="noopener noreferrer">
-          <span>💬 WhatsApp Us</span>
+          <span>💬 WhatsApp</span>
         </a>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+    <div class="mobile-drawer-content">
+      <ul class="mobile-nav-list">
+        <li><a href="#vault" class="mobile-nav-item" data-close="true"><span>📹 Video Vault</span> <span class="nav-count-badge">50+</span></a></li>
+        <li><a href="#niches" class="mobile-nav-item" data-close="true"><span>🛍️ Retail Niches</span></a></li>
+        <li><a href="#simulator" class="mobile-nav-item" data-close="true"><span>📊 Footfall Calculator</span></a></li>
+        <li><a href="#blueprint" class="mobile-nav-item" data-close="true"><span>🚀 How It Works</span></a></li>
+        <li><a href="#founders" class="mobile-nav-item" data-close="true"><span>👥 About Founders</span></a></li>
+        <li><a href="#faqs" class="mobile-nav-item" data-close="true"><span>❓ FAQs</span></a></li>
+      </ul>
+      <div class="mobile-drawer-footer">
+        <div class="mobile-shoot-badge">
+          <span class="live-dot"></span>
+          <span>Shoots Open: Chhattisgarh &amp; MP</span>
+        </div>
+        <a href="https://wa.me/919109990888?text=Namaste%20Prateek%20%26%20Unnati!%20I%20have%20an%20offline%20shop%20and%20want%20viral%20reels%20for%20my%20store." 
+           class="btn btn-whatsapp w-full" 
+           target="_blank" 
+           rel="noopener noreferrer">
+          <span>💬 Chat on WhatsApp Directly</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <main>
     <!-- ==========================================================================
@@ -930,12 +961,12 @@
      rel="noopener noreferrer" 
      title="Chat with Prateek & Unnati on WhatsApp">
     <div class="whatsapp-pulse-ring"></div>
-    <span style="font-size: 1.3rem;">💬</span>
-    <span>Chat with Prateek &amp; Unnati</span>
+    <span class="wa-icon">💬</span>
+    <span class="wa-text">Chat with Prateek &amp; Unnati</span>
   </a>
 
   <!-- JavaScript Datasets & Logic -->
-  <script src="videos-data.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="videos-data.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
