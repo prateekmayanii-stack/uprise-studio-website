@@ -238,13 +238,15 @@
     }
 
     el.videoModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open');
   }
 
   function closeModal() {
     if (!el.videoModal) return;
     el.videoModal.classList.remove('active');
-    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
+    document.documentElement.classList.remove('modal-open');
     if (el.modalVideoStream) {
       el.modalVideoStream.pause();
       el.modalVideoStream.removeAttribute('src');
