@@ -9,9 +9,9 @@
 
   // State Management
   const state = {
-    videos: window.UPRISE_VIDEOS || [],
-    categories: window.UPRISE_CATEGORIES || [],
-    styles: window.UPRISE_STYLES || [],
+    videos: (typeof window !== 'undefined' && window.UPRISE_VIDEOS && window.UPRISE_VIDEOS.length) ? window.UPRISE_VIDEOS : (typeof UPRISE_VIDEOS !== 'undefined' ? UPRISE_VIDEOS : []),
+    categories: (typeof window !== 'undefined' && window.UPRISE_CATEGORIES && window.UPRISE_CATEGORIES.length) ? window.UPRISE_CATEGORIES : (typeof UPRISE_CATEGORIES !== 'undefined' ? UPRISE_CATEGORIES : []),
+    styles: (typeof window !== 'undefined' && window.UPRISE_STYLES && window.UPRISE_STYLES.length) ? window.UPRISE_STYLES : (typeof UPRISE_STYLES !== 'undefined' ? UPRISE_STYLES : []),
     activeCategory: 'all',
     activeStyle: 'all',
     searchQuery: '',

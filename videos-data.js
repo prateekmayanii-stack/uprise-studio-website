@@ -4,7 +4,7 @@
  * Patake ki Dukaan, Hardware, Decor, Sports Shoes, Wholesale, Sweets, Auto/Optical)
  */
 
-const UPRISE_CATEGORIES = [
+var UPRISE_CATEGORIES = window.UPRISE_CATEGORIES = [
   { id: 'all', name: '🔥 All Videos', icon: '🔥', count: 50 },
   { id: 'jewelry', name: '💍 Jewelry & Gold', icon: '💍', count: 5 },
   { id: 'clothes', name: '👗 Clothes & Sarees', icon: '👗', count: 6 },
@@ -18,7 +18,7 @@ const UPRISE_CATEGORIES = [
   { id: 'auto_gym', name: '🕶️ Eyewear, Auto & Gym', icon: '🕶️', count: 4 }
 ];
 
-const UPRISE_STYLES = [
+var UPRISE_STYLES = window.UPRISE_STYLES = [
   { id: 'all', name: 'All Editing Styles' },
   { id: 'fast_paced', name: '⚡ Fast-Paced Gen-Z Cut' },
   { id: 'cinematic', name: '🎬 Cinematic Luxury B-Roll' },
@@ -27,7 +27,7 @@ const UPRISE_STYLES = [
   { id: 'asmr', name: '✨ Satisfying ASMR / Process' }
 ];
 
-const UPRISE_VIDEOS = [
+var UPRISE_VIDEOS = window.UPRISE_VIDEOS = [
   // ================= 1. JEWELRY & GOLD (5) =================
   {
     id: 'jewel-01',
