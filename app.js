@@ -26,14 +26,17 @@
     // Modal
     videoModal: document.getElementById('videoModal'),
     modalCloseBtn: document.getElementById('modalCloseBtn'),
+    mobileCloseBtn: document.getElementById('mobileCloseBtn'),
     modalPrevBtn: document.getElementById('modalPrevBtn'),
     modalNextBtn: document.getElementById('modalNextBtn'),
+    mobilePrevBtn: document.getElementById('mobilePrevBtn'),
+    mobileNextBtn: document.getElementById('mobileNextBtn'),
+    mobileReelBookBtn: document.getElementById('mobileReelBookBtn'),
     modalIndexCounter: document.getElementById('modalIndexCounter'),
     modalVideoStream: document.getElementById('modalVideoStream'),
     modalPhoneBezel: document.getElementById('modalPhoneBezel'),
     reelPlayTrigger: document.getElementById('reelPlayTrigger'),
     reelSoundToggle: document.getElementById('reelSoundToggle'),
-    reelFitToggle: document.getElementById('reelFitToggle'),
     reelLiveTag: document.getElementById('reelLiveTag'),
     reelProgressBar: document.getElementById('reelProgressBar'),
     reelProgressFill: document.getElementById('reelProgressFill'),
@@ -189,14 +192,14 @@
     }
 
     if (el.reelLiveTag) {
-      el.reelLiveTag.textContent = `● Reel ${index + 1} / ${state.reels.length} · Raipur`;
+      el.reelLiveTag.textContent = `${index + 1} / ${state.reels.length}`;
     }
 
     if (el.modalStoreTitle) {
       el.modalStoreTitle.textContent = `Client Production #${String(index + 1).padStart(2, '0')}`;
     }
 
-    // Dynamic Social Media Marketing Quote for this reel
+    // Dynamic Social Media Marketing Quote for this reel (Desktop)
     if (el.modalQuoteCategory && reel.quoteCategory) {
       el.modalQuoteCategory.textContent = reel.quoteCategory;
     }
@@ -238,11 +241,14 @@
       }
     }
 
+    const waText = encodeURIComponent(
+      `Namaste Prateek & Unnati! I watched Production #${String(index + 1).padStart(2, '0')} on your Uprise Studio website. I want to discuss a similar reel package for my retail store.`
+    );
     if (el.modalWhatsAppBtn) {
-      const waText = encodeURIComponent(
-        `Namaste Prateek & Unnati! I watched Production #${String(index + 1).padStart(2, '0')} on your Uprise Studio website. I want to discuss a similar reel package for my retail store.`
-      );
       el.modalWhatsAppBtn.href = `https://wa.me/919109990888?text=${waText}`;
+    }
+    if (el.mobileReelBookBtn) {
+      el.mobileReelBookBtn.href = `https://wa.me/919109990888?text=${waText}`;
     }
 
     el.videoModal.classList.add('active');
@@ -389,9 +395,15 @@
       });
     }
 
-    // Close button
+    // Close button (Desktop & Mobile)
     if (el.modalCloseBtn) {
       el.modalCloseBtn.addEventListener('click', closeModal);
+    }
+    if (el.mobileCloseBtn) {
+      el.mobileCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeModal();
+      });
     }
 
     // Click outside dialog to close
@@ -401,17 +413,29 @@
       });
     }
 
-    // Step Previous
+    // Step Previous (Desktop & Mobile)
     if (el.modalPrevBtn) {
       el.modalPrevBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         stepModal(-1);
       });
     }
+    if (el.mobilePrevBtn) {
+      el.mobilePrevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepModal(-1);
+      });
+    }
 
-    // Step Next
+    // Step Next (Desktop & Mobile)
     if (el.modalNextBtn) {
       el.modalNextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepModal(1);
+      });
+    }
+    if (el.mobileNextBtn) {
+      el.mobileNextBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         stepModal(1);
       });

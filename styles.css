@@ -1511,7 +1511,8 @@ button {
   object-fit: contain !important;
 }
 
-.modal-info-toggle-btn {
+.modal-mobile-close-btn,
+.mobile-reel-controls-bar {
   display: none;
 }
 
@@ -2904,7 +2905,7 @@ body.modal-open .floating-whatsapp-widget,
   }
 
   /* ==========================================================================
-     TRUE 100% FULL-SCREEN REEL PLAYER ON MOBILE (100dvh Edge-to-Edge)
+     TRUE 100% FULL-SCREEN REEL PLAYER ON MOBILE (100dvh — PURE VIDEO)
      ========================================================================== */
   .modal-backdrop {
     position: fixed !important;
@@ -2938,27 +2939,14 @@ body.modal-open .floating-whatsapp-widget,
     display: block !important;
   }
 
-  /* Fixed Persistent Close Button on Mobile */
+  /* Desktop floating close button hidden on mobile */
   .modal-close-btn {
-    position: fixed !important;
-    top: calc(env(safe-area-inset-top, 14px) + 8px) !important;
-    right: 14px !important;
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.68) !important;
-    border: 1px solid rgba(255, 255, 255, 0.28) !important;
-    color: #fff !important;
-    z-index: 10005 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7) !important;
-    font-size: 1.15rem !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
+    display: none !important;
+  }
+
+  /* HIDE ALL THE TEXT DOSSIER AND QUOTE CARDS ON MOBILE */
+  .modal-details-column {
+    display: none !important;
   }
 
   .modal-phone-column {
@@ -2996,17 +2984,14 @@ body.modal-open .floating-whatsapp-widget,
     display: none !important;
   }
 
+  /* Video fills the screen cleanly with zero cropping */
   .modal-video-stream {
     position: absolute !important;
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
-    background: #000 !important;
-  }
-
-  .modal-video-stream.fit-contain {
     object-fit: contain !important;
+    background: #000 !important;
   }
 
   .reel-overlay-container {
@@ -3017,73 +3002,83 @@ body.modal-open .floating-whatsapp-widget,
     padding: 0 !important;
     background: transparent !important;
     pointer-events: none !important;
-    z-index: 5 !important;
+    z-index: 10 !important;
   }
 
+  /* Sleek, Minimalist, Perfectly Balanced Top Bar */
   .reel-top-row {
     position: fixed !important;
     top: calc(env(safe-area-inset-top, 14px) + 8px) !important;
     left: 14px !important;
-    right: 68px !important;
+    right: 14px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
-    z-index: 10004 !important;
+    z-index: 10005 !important;
     pointer-events: none !important;
   }
 
-  .reel-live-tag {
-    background: rgba(0, 0, 0, 0.68) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(210, 255, 0, 0.45) !important;
-    color: var(--accent-lime) !important;
-    font-family: var(--font-display) !important;
-    font-size: 0.76rem !important;
-    font-weight: 800 !important;
-    padding: 6px 12px !important;
-    border-radius: var(--radius-full) !important;
-    letter-spacing: 0.03em !important;
-    pointer-events: auto !important;
-    white-space: nowrap !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
-  }
-
-  .reel-top-actions {
+  .modal-mobile-close-btn {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    pointer-events: auto !important;
-  }
-
-  .reel-sound-toggle-btn,
-  .reel-fit-toggle-btn {
-    width: 40px !important;
-    height: 40px !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
     border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.68) !important;
+    background: rgba(0, 0, 0, 0.65) !important;
     border: 1px solid rgba(255, 255, 255, 0.28) !important;
     color: #fff !important;
-    font-size: 1rem !important;
+    font-size: 1.15rem !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .reel-live-tag {
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    font-family: var(--font-display) !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
+    padding: 6px 14px !important;
+    border-radius: var(--radius-full) !important;
+    letter-spacing: 0.04em !important;
+    pointer-events: auto !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .reel-sound-toggle-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    color: #fff !important;
+    font-size: 1.05rem !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     backdrop-filter: blur(14px) !important;
     -webkit-backdrop-filter: blur(14px) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
     cursor: pointer !important;
     pointer-events: auto !important;
   }
 
+  /* Center Play/Pause Trigger */
   .reel-center-play-trigger {
     position: fixed !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    width: 72px !important;
-    height: 72px !important;
-    font-size: 1.8rem !important;
+    width: 68px !important;
+    height: 68px !important;
+    font-size: 1.7rem !important;
     border-radius: 50% !important;
     background: rgba(210, 255, 0, 0.95) !important;
     color: #07080e !important;
@@ -3109,6 +3104,54 @@ body.modal-open .floating-whatsapp-widget,
     display: none !important;
   }
 
+  /* Sleek Minimal Floating Bottom Bar (Prev, Book on WhatsApp, Next) */
+  .mobile-reel-controls-bar {
+    position: fixed !important;
+    bottom: calc(env(safe-area-inset-bottom, 12px) + 8px) !important;
+    left: 14px !important;
+    right: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    z-index: 10005 !important;
+    pointer-events: none !important;
+  }
+
+  .mobile-reel-step-btn {
+    pointer-events: auto !important;
+    padding: 8px 14px !important;
+    border-radius: var(--radius-full) !important;
+    background: rgba(0, 0, 0, 0.68) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #fff !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .mobile-reel-book-pill {
+    pointer-events: auto !important;
+    flex: 1 !important;
+    max-width: 190px !important;
+    padding: 9px 14px !important;
+    border-radius: var(--radius-full) !important;
+    background: #25D366 !important;
+    color: #fff !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.5) !important;
+    text-align: center !important;
+    text-decoration: none !important;
+  }
+
   .reel-progress-track {
     position: fixed !important;
     bottom: 0 !important;
@@ -3116,208 +3159,12 @@ body.modal-open .floating-whatsapp-widget,
     right: 0 !important;
     height: 3px !important;
     background: rgba(255, 255, 255, 0.2) !important;
-    z-index: 10001 !important;
+    z-index: 10006 !important;
   }
 
   .reel-progress-fill {
     height: 100% !important;
     background: var(--accent-lime) !important;
-  }
-
-  /* Floating Overlay over Video on Mobile */
-  .modal-details-column {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    z-index: 9990 !important;
-    background: linear-gradient(0deg, rgba(3, 4, 8, 0.98) 0%, rgba(3, 4, 8, 0.84) 65%, rgba(3, 4, 8, 0.3) 88%, transparent 100%) !important;
-    padding: 20px 14px calc(env(safe-area-inset-bottom, 12px) + 8px) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-    max-height: 46vh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    pointer-events: none !important;
-    border: none !important;
-    box-sizing: border-box !important;
-    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-
-  .modal-details-column > * {
-    pointer-events: auto !important;
-  }
-
-  /* Collapsed Mode for 100% pure video view */
-  .modal-details-column.collapsed {
-    max-height: 130px !important;
-    background: linear-gradient(0deg, rgba(3, 4, 8, 0.95) 0%, rgba(3, 4, 8, 0.5) 80%, transparent 100%) !important;
-  }
-
-  .modal-details-column.collapsed .marketing-quote-card,
-  .modal-details-column.collapsed .modal-store-header {
-    display: none !important;
-  }
-
-  .modal-info-toggle-btn {
-    align-self: center !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    padding: 4px 12px !important;
-    border-radius: var(--radius-full) !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: #f1f5f9 !important;
-    font-size: 0.74rem !important;
-    font-weight: 700 !important;
-    cursor: pointer !important;
-    margin-bottom: 2px !important;
-  }
-
-  .modal-info-toggle-btn .toggle-icon {
-    font-size: 0.7rem !important;
-    color: var(--accent-gold) !important;
-    transition: transform 0.2s ease !important;
-  }
-
-  .modal-details-column.collapsed .modal-info-toggle-btn .toggle-icon {
-    transform: rotate(180deg) !important;
-  }
-
-  .modal-nav-row {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    padding-bottom: 4px !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  }
-
-  .modal-stepper-btn {
-    padding: 7px 12px !important;
-    border-radius: var(--radius-full) !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
-    color: #fff !important;
-    font-size: 0.78rem !important;
-    font-weight: 700 !important;
-    flex: 1 !important;
-  }
-
-  .modal-index-counter {
-    font-size: 0.85rem !important;
-    font-weight: 800 !important;
-    color: var(--accent-lime) !important;
-    min-width: 55px !important;
-    text-align: center !important;
-  }
-
-  .modal-store-header {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    margin: 2px 0 0 !important;
-  }
-
-  .modal-badge-group {
-    display: none !important;
-  }
-
-  .modal-store-title {
-    font-size: 1.05rem !important;
-    font-weight: 800 !important;
-    color: #fff !important;
-    margin: 0 !important;
-  }
-
-  .modal-store-location {
-    font-size: 0.76rem !important;
-    color: var(--accent-lime) !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-  }
-
-  .marketing-quote-card {
-    background: rgba(255, 255, 255, 0.07) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    border-radius: 12px !important;
-    padding: 8px 12px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 4px !important;
-    margin-bottom: 2px !important;
-  }
-
-  .quote-header-badge {
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-  }
-
-  .quote-category-tag {
-    font-size: 0.68rem !important;
-    font-weight: 800 !important;
-    color: var(--accent-gold) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.04em !important;
-  }
-
-  .marketing-quote-text {
-    font-size: 0.84rem !important;
-    line-height: 1.35 !important;
-    color: #f1f5f9 !important;
-    margin: 0 !important;
-    font-style: italic !important;
-  }
-
-  .quote-author-row {
-    display: flex !important;
-    justify-content: flex-end !important;
-  }
-
-  .quote-author-name {
-    font-size: 0.72rem !important;
-    color: var(--accent-gold) !important;
-    font-weight: 700 !important;
-  }
-
-  .quote-key-takeaway {
-    font-size: 0.72rem !important;
-    line-height: 1.3 !important;
-    background: rgba(210, 255, 0, 0.08) !important;
-    border-left: 2px solid var(--accent-lime) !important;
-    padding: 4px 8px !important;
-    border-radius: 4px !important;
-    color: #e2e8f0 !important;
-  }
-
-  .modal-cta-row {
-    position: static !important;
-    padding: 2px 0 0 !important;
-    background: transparent !important;
-    border-top: none !important;
-    backdrop-filter: none !important;
-  }
-
-  .modal-cta-row .btn {
-    width: 100% !important;
-    padding: 12px 16px !important;
-    font-size: 0.88rem !important;
-    font-weight: 800 !important;
-    border-radius: 26px !important;
-    justify-content: center !important;
-    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45) !important;
   }
 
   /* Retail Niches Section */

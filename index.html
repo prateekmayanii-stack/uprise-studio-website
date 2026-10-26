@@ -122,7 +122,7 @@
 
             <div class="hero-cta-group">
               <a href="#vault" class="btn btn-lime" id="heroExploreVaultBtn">
-                <span>🔥 Explore 50+ Client Videos</span>
+                <span>🔥 Watch 27 Client Reels</span>
               </a>
               <a href="https://wa.me/919109990888?text=Namaste%20Prateek%20%26%20Unnati!%20I%20want%20to%20book%20a%20store%20shoot%20for%20my%20shop." 
                  class="btn btn-gold" 
@@ -805,11 +805,9 @@
           <!-- Interactive Instagram Reels UI Overlay -->
           <div class="reel-overlay-container">
             <div class="reel-top-row">
-              <span class="reel-live-tag" id="reelLiveTag">● Reel 1 / 27 · Raipur</span>
-              <div class="reel-top-actions">
-                <button class="reel-fit-toggle-btn" id="reelFitToggle" title="Toggle Fullscreen Fit / Fill" aria-label="Toggle Fit / Fill">⛶</button>
-                <button class="reel-sound-toggle-btn" id="reelSoundToggle" title="Toggle Sound" aria-label="Toggle Sound">🔇</button>
-              </div>
+              <button class="modal-mobile-close-btn" id="mobileCloseBtn" title="Close video" aria-label="Close video">✕</button>
+              <span class="reel-live-tag" id="reelLiveTag">Reel 1 / 27</span>
+              <button class="reel-sound-toggle-btn" id="reelSoundToggle" title="Toggle Sound" aria-label="Toggle Sound">🔇</button>
             </div>
 
             <!-- Center Tap Play Trigger -->
@@ -844,6 +842,19 @@
               </div>
             </div>
 
+            <!-- Minimal Mobile Bottom Bar: Prev, Book on WhatsApp, Next -->
+            <div class="mobile-reel-controls-bar" id="mobileReelControls">
+              <button class="mobile-reel-step-btn" id="mobilePrevBtn" aria-label="Previous Reel">‹ Prev</button>
+              <a href="https://wa.me/919109990888?text=Namaste%20Prateek%20%26%20Unnati!%20I%20watched%20your%20reels%20and%20want%20to%20book%20a%20shoot%20for%20my%20store." 
+                 class="mobile-reel-book-pill" 
+                 id="mobileReelBookBtn" 
+                 target="_blank" 
+                 rel="noopener noreferrer">
+                <span>💬 Book Shoot</span>
+              </a>
+              <button class="mobile-reel-step-btn" id="mobileNextBtn" aria-label="Next Reel">Next ›</button>
+            </div>
+
             <!-- Scrub Progress Bar -->
             <div class="reel-progress-track" id="reelProgressBar">
               <div class="reel-progress-fill" id="reelProgressFill"></div>
@@ -855,12 +866,6 @@
       <!-- Case Strategy & Result Dossier Column -->
       <div class="modal-details-column" id="modalDetailsColumn">
         
-        <!-- Toggle button to minimize details on mobile for 100% full-screen view -->
-        <button class="modal-info-toggle-btn" id="modalInfoToggle" aria-label="Toggle Info">
-          <span class="toggle-text">💡 Marketing Insight &amp; Booking</span>
-          <span class="toggle-icon">▾</span>
-        </button>
-
         <!-- Navigation Between Videos -->
         <div class="modal-nav-row">
           <button class="modal-stepper-btn" id="modalPrevBtn">
