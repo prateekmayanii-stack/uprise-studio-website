@@ -30,8 +30,17 @@
     modalNextBtn: document.getElementById('modalNextBtn'),
     modalIndexCounter: document.getElementById('modalIndexCounter'),
     modalVideoStream: document.getElementById('modalVideoStream'),
+    modalPhoneBezel: document.getElementById('modalPhoneBezel'),
+    reelPlayTrigger: document.getElementById('reelPlayTrigger'),
+    reelSoundToggle: document.getElementById('reelSoundToggle'),
+    reelProgressBar: document.getElementById('reelProgressBar'),
+    reelProgressFill: document.getElementById('reelProgressFill'),
     modalStoreTitle: document.getElementById('modalStoreTitle'),
     modalStoreLocation: document.getElementById('modalStoreLocation'),
+    modalQuoteCategory: document.getElementById('modalQuoteCategory'),
+    modalQuoteText: document.getElementById('modalQuoteText'),
+    modalQuoteAuthor: document.getElementById('modalQuoteAuthor'),
+    modalQuoteTakeaway: document.getElementById('modalQuoteTakeaway'),
     modalWhatsAppBtn: document.getElementById('modalWhatsAppBtn'),
     // Calculator
     calcCategoryBtns: document.querySelectorAll('.calc-choice-btn'),
@@ -69,6 +78,8 @@
     if (!el.videoGridContainer) return;
     el.videoGridContainer.innerHTML = '';
 
+    const hasHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+
     state.reels.forEach((reel, idx) => {
       const card = document.createElement('div');
       card.className = 'reel-card';
@@ -99,7 +110,7 @@
             <div class="reel-card-footer">
               <div class="reel-pill-row">
                 <span class="reel-meta-tag">⚡ In-Store Shoot</span>
-                <span class="reel-meta-tag">📍 CG &amp; MP</span>
+                <span class="reel-meta-tag">📍 Raipur</span>
               </div>
               <div class="reel-actions-row">
                 <button type="button" class="reel-audio-btn" title="Toggle Sound" aria-label="Toggle Sound">
@@ -118,36 +129,37 @@
       const videoEl = card.querySelector('.reel-card-video');
       const audioBtn = card.querySelector('.reel-audio-btn');
       const audioIcon = card.querySelector('.audio-icon');
-      const expandBtn = card.querySelector('.reel-expand-btn');
       const playCircle = card.querySelector('.reel-play-circle');
 
-      // Desktop Hover Preview
-      card.addEventListener('mouseenter', () => {
-        videoEl.play().then(() => {
-          playCircle.style.opacity = '0';
-        }).catch(() => {});
-      });
-
-      card.addEventListener('mouseleave', () => {
-        videoEl.pause();
-        videoEl.currentTime = 0;
-        playCircle.style.opacity = '1';
-      });
-
-      // Card Click -> Open Full Modal
-      card.addEventListener('click', (e) => {
-        // If clicked specifically on audio button, don't open modal
-        if (e.target.closest('.reel-audio-btn')) {
-          e.stopPropagation();
-          videoEl.muted = !videoEl.muted;
-          audioIcon.textContent = videoEl.muted ? '🔇' : '🔊';
-          if (videoEl.paused) {
-            videoEl.play().catch(() => {});
+      // Desktop Hover Preview (only on devices with cursor hover)
+      if (hasHover) {
+        card.addEventListener('mouseenter', () => {
+          videoEl.play().then(() => {
             playCircle.style.opacity = '0';
-          }
-          return;
-        }
+          }).catch(() => {});
+        });
 
+        card.addEventListener('mouseleave', () => {
+          videoEl.pause();
+          videoEl.currentTime = 0;
+          playCircle.style.opacity = '1';
+        });
+      }
+
+      // Audio Button on Card
+      audioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        videoEl.muted = !videoEl.muted;
+        audioIcon.textContent = videoEl.muted ? '🔇' : '🔊';
+        if (videoEl.paused) {
+          videoEl.play().catch(() => {});
+          playCircle.style.opacity = '0';
+        }
+      });
+
+      // Card Click -> Open Full Modal Lightbox
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.reel-audio-btn')) return;
         openModal(idx);
       });
 
@@ -163,7 +175,7 @@
     state.currentModalIndex = index;
     const reel = state.reels[index];
 
-    // Pause all card videos
+    // Pause all card videos in grid
     document.querySelectorAll('.reel-card-video').forEach(v => {
       v.pause();
     });
@@ -176,16 +188,46 @@
       el.modalStoreTitle.textContent = `Client Production #${String(index + 1).padStart(2, '0')}`;
     }
 
+    // Dynamic Social Media Marketing Quote for this reel
+    if (el.modalQuoteCategory && reel.quoteCategory) {
+      el.modalQuoteCategory.textContent = reel.quoteCategory;
+    }
+    if (el.modalQuoteText && reel.quote) {
+      el.modalQuoteText.textContent = `"${reel.quote}"`;
+    }
+    if (el.modalQuoteAuthor && reel.author) {
+      el.modalQuoteAuthor.textContent = reel.author;
+    }
+    if (el.modalQuoteTakeaway && reel.takeaway) {
+      el.modalQuoteTakeaway.innerHTML = `<strong>Key Retail Takeaway:</strong> ${reel.takeaway}`;
+    }
+
     if (el.modalVideoStream) {
       el.modalVideoStream.src = reel.videoSrc;
       el.modalVideoStream.poster = reel.posterSrc;
       el.modalVideoStream.currentTime = 0;
-      el.modalVideoStream.muted = false; // Play with sound in modal!
-      el.modalVideoStream.play().catch(() => {
-        // Fallback to muted if browser blocks unmuted autoplay
-        el.modalVideoStream.muted = true;
-        el.modalVideoStream.play().catch(() => {});
-      });
+      el.modalVideoStream.load();
+
+      // Show pause indicator initially until playback starts
+      updateModalPlayState(false);
+
+      // Attempt unmuted play first; fallback to muted if browser blocks
+      const playPromise = el.modalVideoStream.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          updateModalPlayState(true);
+          updateSoundButton(!el.modalVideoStream.muted);
+        }).catch(() => {
+          el.modalVideoStream.muted = true;
+          updateSoundButton(false);
+          el.modalVideoStream.play().then(() => {
+            updateModalPlayState(true);
+          }).catch(() => {
+            // Autoplay blocked completely, user can tap play button
+            updateModalPlayState(false);
+          });
+        });
+      }
     }
 
     if (el.modalWhatsAppBtn) {
@@ -217,17 +259,108 @@
     openModal(nextIndex);
   }
 
+  function toggleModalPlayPause() {
+    if (!el.modalVideoStream) return;
+    if (el.modalVideoStream.paused) {
+      el.modalVideoStream.play().then(() => {
+        updateModalPlayState(true);
+      }).catch(() => {
+        el.modalVideoStream.muted = true;
+        updateSoundButton(false);
+        el.modalVideoStream.play().then(() => {
+          updateModalPlayState(true);
+        }).catch(() => {});
+      });
+    } else {
+      el.modalVideoStream.pause();
+      updateModalPlayState(false);
+    }
+  }
+
+  function updateModalPlayState(isPlaying) {
+    if (el.reelPlayTrigger) {
+      if (isPlaying) {
+        el.reelPlayTrigger.innerHTML = '❚❚';
+        el.reelPlayTrigger.classList.remove('paused');
+        el.reelPlayTrigger.setAttribute('aria-label', 'Pause Reel');
+        el.reelPlayTrigger.title = 'Pause Reel';
+      } else {
+        el.reelPlayTrigger.innerHTML = '▶';
+        el.reelPlayTrigger.classList.add('paused');
+        el.reelPlayTrigger.setAttribute('aria-label', 'Play Reel');
+        el.reelPlayTrigger.title = 'Play Reel';
+      }
+    }
+  }
+
+  function toggleModalSound(e) {
+    if (e) e.stopPropagation();
+    if (!el.modalVideoStream) return;
+    el.modalVideoStream.muted = !el.modalVideoStream.muted;
+    updateSoundButton(!el.modalVideoStream.muted);
+  }
+
+  function updateSoundButton(isSoundOn) {
+    if (el.reelSoundToggle) {
+      el.reelSoundToggle.innerHTML = isSoundOn ? '🔊' : '🔇';
+      el.reelSoundToggle.title = isSoundOn ? 'Sound: ON (Tap to mute)' : 'Sound: OFF (Tap to unmute)';
+    }
+  }
+
+  function updateReelProgress() {
+    if (!el.modalVideoStream || !el.reelProgressFill) return;
+    const duration = el.modalVideoStream.duration;
+    const current = el.modalVideoStream.currentTime;
+    if (duration > 0) {
+      const pct = (current / duration) * 100;
+      el.reelProgressFill.style.width = `${pct}%`;
+    }
+  }
+
   function setupModalListeners() {
+    // Video Play/Pause events
+    if (el.modalVideoStream) {
+      el.modalVideoStream.addEventListener('play', () => updateModalPlayState(true));
+      el.modalVideoStream.addEventListener('pause', () => updateModalPlayState(false));
+      el.modalVideoStream.addEventListener('timeupdate', updateReelProgress);
+    }
+
+    // Play/Pause center trigger button
+    if (el.reelPlayTrigger) {
+      el.reelPlayTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleModalPlayPause();
+      });
+    }
+
+    // Tap anywhere on smartphone bezel or video to toggle play/pause
+    if (el.modalPhoneBezel) {
+      el.modalPhoneBezel.addEventListener('click', (e) => {
+        if (e.target.closest('#reelSoundToggle') || e.target.closest('.reel-action-btn') || e.target.closest('a')) {
+          return;
+        }
+        toggleModalPlayPause();
+      });
+    }
+
+    // Sound toggle button in modal
+    if (el.reelSoundToggle) {
+      el.reelSoundToggle.addEventListener('click', toggleModalSound);
+    }
+
+    // Close button
     if (el.modalCloseBtn) {
       el.modalCloseBtn.addEventListener('click', closeModal);
     }
 
+    // Click outside dialog to close
     if (el.videoModal) {
       el.videoModal.addEventListener('click', (e) => {
         if (e.target === el.videoModal) closeModal();
       });
     }
 
+    // Step Previous
     if (el.modalPrevBtn) {
       el.modalPrevBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -235,6 +368,7 @@
       });
     }
 
+    // Step Next
     if (el.modalNextBtn) {
       el.modalNextBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -242,12 +376,16 @@
       });
     }
 
-    // Keyboard Shortcuts
+    // Keyboard Shortcuts (Space to play/pause, Arrow Left/Right to step, Escape to close)
     window.addEventListener('keydown', (e) => {
       if (!el.videoModal || !el.videoModal.classList.contains('active')) return;
       if (e.key === 'Escape') closeModal();
       if (e.key === 'ArrowLeft') stepModal(-1);
       if (e.key === 'ArrowRight') stepModal(1);
+      if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault();
+        toggleModalPlayPause();
+      }
     });
   }
 
