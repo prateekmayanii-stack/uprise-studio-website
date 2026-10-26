@@ -805,8 +805,11 @@
           <!-- Interactive Instagram Reels UI Overlay -->
           <div class="reel-overlay-container">
             <div class="reel-top-row">
-              <span class="reel-live-tag">● IN-STORE REEL</span>
-              <button class="reel-sound-toggle-btn" id="reelSoundToggle" title="Toggle Sound" aria-label="Toggle Sound">🔇</button>
+              <span class="reel-live-tag" id="reelLiveTag">● Reel 1 / 27 · Raipur</span>
+              <div class="reel-top-actions">
+                <button class="reel-fit-toggle-btn" id="reelFitToggle" title="Toggle Fullscreen Fit / Fill" aria-label="Toggle Fit / Fill">⛶</button>
+                <button class="reel-sound-toggle-btn" id="reelSoundToggle" title="Toggle Sound" aria-label="Toggle Sound">🔇</button>
+              </div>
             </div>
 
             <!-- Center Tap Play Trigger -->
@@ -850,8 +853,14 @@
       </div>
 
       <!-- Case Strategy & Result Dossier Column -->
-      <div class="modal-details-column">
+      <div class="modal-details-column" id="modalDetailsColumn">
         
+        <!-- Toggle button to minimize details on mobile for 100% full-screen view -->
+        <button class="modal-info-toggle-btn" id="modalInfoToggle" aria-label="Toggle Info">
+          <span class="toggle-text">💡 Marketing Insight &amp; Booking</span>
+          <span class="toggle-icon">▾</span>
+        </button>
+
         <!-- Navigation Between Videos -->
         <div class="modal-nav-row">
           <button class="modal-stepper-btn" id="modalPrevBtn">

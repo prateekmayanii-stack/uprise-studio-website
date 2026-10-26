@@ -33,8 +33,12 @@
     modalPhoneBezel: document.getElementById('modalPhoneBezel'),
     reelPlayTrigger: document.getElementById('reelPlayTrigger'),
     reelSoundToggle: document.getElementById('reelSoundToggle'),
+    reelFitToggle: document.getElementById('reelFitToggle'),
+    reelLiveTag: document.getElementById('reelLiveTag'),
     reelProgressBar: document.getElementById('reelProgressBar'),
     reelProgressFill: document.getElementById('reelProgressFill'),
+    modalDetailsColumn: document.getElementById('modalDetailsColumn'),
+    modalInfoToggle: document.getElementById('modalInfoToggle'),
     modalStoreTitle: document.getElementById('modalStoreTitle'),
     modalStoreLocation: document.getElementById('modalStoreLocation'),
     modalQuoteCategory: document.getElementById('modalQuoteCategory'),
@@ -182,6 +186,10 @@
 
     if (el.modalIndexCounter) {
       el.modalIndexCounter.textContent = `${index + 1} / ${state.reels.length}`;
+    }
+
+    if (el.reelLiveTag) {
+      el.reelLiveTag.textContent = `● Reel ${index + 1} / ${state.reels.length} · Raipur`;
     }
 
     if (el.modalStoreTitle) {
@@ -335,10 +343,22 @@
       });
     }
 
-    // Tap anywhere on smartphone bezel or video to toggle play/pause
+    // Direct Tap on Video Stream to Toggle Play/Pause
+    if (el.modalVideoStream) {
+      el.modalVideoStream.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleModalPlayPause();
+      });
+    }
+
+    // Tap anywhere on smartphone bezel to toggle play/pause
     if (el.modalPhoneBezel) {
       el.modalPhoneBezel.addEventListener('click', (e) => {
-        if (e.target.closest('#reelSoundToggle') || e.target.closest('.reel-action-btn') || e.target.closest('a')) {
+        if (e.target.closest('#reelSoundToggle') || 
+            e.target.closest('#reelFitToggle') || 
+            e.target.closest('.reel-action-btn') || 
+            e.target.closest('button') || 
+            e.target.closest('a')) {
           return;
         }
         toggleModalPlayPause();
@@ -348,6 +368,25 @@
     // Sound toggle button in modal
     if (el.reelSoundToggle) {
       el.reelSoundToggle.addEventListener('click', toggleModalSound);
+    }
+
+    // Fullscreen Fit / Fill Toggle (Cover vs Contain)
+    if (el.reelFitToggle) {
+      el.reelFitToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!el.modalVideoStream) return;
+        const isContain = el.modalVideoStream.classList.toggle('fit-contain');
+        el.reelFitToggle.textContent = isContain ? '⊡' : '⛶';
+        el.reelFitToggle.title = isContain ? 'Fill Screen (100% Fullscreen)' : 'Fit Entire Frame (Letterbox)';
+      });
+    }
+
+    // Mobile Info Collapse / Expand Toggle
+    if (el.modalInfoToggle && el.modalDetailsColumn) {
+      el.modalInfoToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        el.modalDetailsColumn.classList.toggle('collapsed');
+      });
     }
 
     // Close button
@@ -376,6 +415,52 @@
         e.stopPropagation();
         stepModal(1);
       });
+    }
+
+    // Touch Swipe Navigation for Reels (Swipe UP/DOWN or LEFT/RIGHT)
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let touchStartTime = 0;
+
+    if (el.videoModal) {
+      el.videoModal.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          touchStartY = e.touches[0].clientY;
+          touchStartX = e.touches[0].clientX;
+          touchStartTime = Date.now();
+        }
+      }, { passive: true });
+
+      el.videoModal.addEventListener('touchend', (e) => {
+        if (!el.videoModal.classList.contains('active')) return;
+        if (e.changedTouches.length === 1) {
+          const deltaY = e.changedTouches[0].clientY - touchStartY;
+          const deltaX = e.changedTouches[0].clientX - touchStartX;
+          const elapsed = Date.now() - touchStartTime;
+
+          // Don't trigger reel swipe if touch ended on a button or link
+          if (e.target.closest('button') || e.target.closest('a')) {
+            return;
+          }
+
+          // Vertical Reel Swipe: Up = Next Reel, Down = Prev Reel
+          if (Math.abs(deltaY) > 50 && Math.abs(deltaY) > Math.abs(deltaX) * 1.2 && elapsed < 650) {
+            if (deltaY < 0) {
+              stepModal(1); // Swipe UP: Next
+            } else {
+              stepModal(-1); // Swipe DOWN: Prev
+            }
+          }
+          // Horizontal Swipe: Left = Next Reel, Right = Prev Reel
+          else if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2 && elapsed < 650) {
+            if (deltaX < 0) {
+              stepModal(1); // Swipe LEFT: Next
+            } else {
+              stepModal(-1); // Swipe RIGHT: Prev
+            }
+          }
+        }
+      }, { passive: true });
     }
 
     // Keyboard Shortcuts (Space to play/pause, Arrow Left/Right to step, Escape to close)
